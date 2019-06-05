@@ -1,0 +1,17 @@
+{
+    "name": "chepew23/jobeet",
+    "description": "A Jobeet tutorial app.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Raul Andres Hernandez Ocampo",
+            "email": "raulandres462@gmail.com"
+        }
+    ],
+    "require": {
+        "chepew23/symfony1": "1.5.*",
+        "chepew23/doctrine1": "^1.3",
+        "psr/log": "^1.1"
+    }
+}

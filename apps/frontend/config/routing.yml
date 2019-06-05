@@ -1,0 +1,119 @@
+# apps/frontend/config/routing.yml
+job_search:
+  url:   /search
+  param: { module: job, action: search }
+
+affiliate:
+  class:   sfDoctrineRouteCollection
+  options:
+    model: JobeetAffiliate
+    actions: [new, create]
+    object_actions: { wait: get }
+
+api_jobs:
+  url:     /api/:token/jobs.:sf_format
+  class:   sfDoctrineRoute
+  param:   { module: api, action: list }
+  options: { model: JobeetJob, type: list, method: getForToken }
+  requirements:
+    sf_format: (?:xml|json|yaml)
+
+category:
+  url:     /category/:slug.:sf_format
+  class:   sfDoctrineRoute
+  param:   { module: category, action: show, sf_format: html }
+  options: { model: JobeetCategory, type: object }
+  requirements:
+    sf_format: (?:html|atom)
+
+# job:
+#   class:        sfDoctrineRouteCollection
+#   options:      { model: JobeetJob, column: token }
+#   requirements: { token: \w+ }
+
+job:
+  class:   sfDoctrineRouteCollection
+  options:
+    model:          JobeetJob
+    column:         token
+    object_actions: { publish: PUT, extend: PUT }
+  requirements:
+    token: \w+
+
+job_show_user:
+  url:     /job/:company_slug/:location_slug/:token/:position_slug
+  class:   sfDoctrineRoute
+  options:
+    model: JobeetJob
+    type:  object
+    method_for_query: retrieveActiveJob
+  param:   { module: job, action: show }
+  requirements:
+    token: \w+
+    sf_method: [GET]
+
+# job_show_user:
+#   url:     /job/:company_slug/:location_slug/:id/:position_slug
+#   class:   sfDoctrineRoute
+#   options:
+#     model: JobeetJob
+#     type:  object
+#     method_for_query: retrieveActiveJob
+#   param:   { module: job, action: show }
+#   requirements:
+#     id: \d+
+#     sf_method: [GET]
+
+job_new:
+  url:     /job/new.:sf_format
+  class:   sfDoctrineRoute
+  options: { model: JobeetJob, type: object }
+  param:   { module: job, action: new, sf_format: html }
+  requirements: { sf_method: get }
+ 
+job_create:
+  url:     /job.:sf_format
+  class:   sfDoctrineRoute
+  options: { model: JobeetJob, type: object }
+  param:   { module: job, action: create, sf_format: html }
+  requirements: { sf_method: post }
+ 
+job_edit:
+  url:     /job/:id/edit.:sf_format
+  class:   sfDoctrineRoute
+  options: { model: JobeetJob, type: object }
+  param:   { module: job, action: edit, sf_format: html }
+  requirements: { sf_method: get }
+ 
+job_update:
+  url:     /job/:id.:sf_format
+  class:   sfDoctrineRoute
+  options: { model: JobeetJob, type: object }
+  param:   { module: job, action: update, sf_format: html }
+  requirements: { sf_method: put }
+ 
+job_delete:
+  url:     /job/:id.:sf_format
+  class:   sfDoctrineRoute
+  options: { model: JobeetJob, type: object }
+  param:   { module: job, action: delete, sf_format: html }
+  requirements: { sf_method: delete }
+ 
+job_show:
+  url:     /job/:id.:sf_format
+  class:   sfDoctrineRoute
+  options: { model: JobeetJob, type: object }
+  param:   { module: job, action: show, sf_format: html }
+  requirements: { sf_method: get }
+ 
+homepage:
+  url:   /
+  param: { module: job, action: index }
+ 
+# default rules
+#default_index:
+#  url:   /:module
+#  param: { action: index }
+#
+#default:
+#  url:   /:module/:action/*
